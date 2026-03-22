@@ -24,12 +24,7 @@ app.use(express.json()); // nous permet de lire les body des requêtes
 // importer le package cors (pour la securité)
 const cors = require("cors");
 
-mongoose.connect(process.env.MONGODB_URI);
-
 app.use(cors());
-
-// env variables
-const PORT = process.env.PORT;
 
 // import des routes
 const userRoutes = require("./routes/user");
