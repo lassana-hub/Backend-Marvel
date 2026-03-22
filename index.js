@@ -34,7 +34,7 @@ const PORT = process.env.PORT;
 // import des routes
 const userRoutes = require("./routes/user");
 
-app.use(userRoutes);
+app.use("/", userRoutes);
 
 app.get("/", (req, res) => {
   try {
