@@ -1,34 +1,40 @@
+// On active dotenv qui permet de lire les fichiers .env qui contiennent les variables d'environement
+require("dotenv").config();
 // importer le package express qui nous peermet de créer un serveur
 const express = require("express");
-
+// importer le package mongoose qui nous permet de manipuler mongoDB
+const mongoose = require("mongoose");
+const cloudinary = require("cloudinary").v2; // On n'oublie pas le `.v2` à la fin
 // import le package axios
 const axios = require("axios");
 
-// importer le package mongoose qui nous permet de manipuler mongoDB
-const mongoose = require("mongoose");
+mongoose.connect(process.env.MONGODB_URI);
+
+// Données à remplacer avec les vôtres :
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // créer une serveur express qui s'appelle app
 const app = express();
 app.use(express.json()); // nous permet de lire les body des requêtes
 
-// importer le package dotenv qui permet d'activer les variables d'environnement
-require("dotenv").config();
-
 // importer le package cors (pour la securité)
 const cors = require("cors");
 
-// création d'une connexion à la base de données
-// mongoose.connect("mongodb://localhost/marvel"); // "mongodb://localhost/marvel"
+mongoose.connect(process.env.MONGODB_URI);
+
 app.use(cors());
 
 // env variables
 const PORT = process.env.PORT;
 
 // import des routes
-const charactersRoutes = require("./routes/characters");
+const userRoutes = require("./routes/user");
 
-// Utilisation de routes importés
-// app.use("/", charactersRoutes);
+app.use(userRoutes);
 
 app.get("/", (req, res) => {
   try {
